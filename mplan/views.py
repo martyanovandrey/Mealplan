@@ -63,3 +63,23 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "mplan/register.html")
+
+@login_required
+def create_recipe(request):
+    if request.method == "POST":
+        name = request.POST["name"]
+        category = request.POST['category']
+        starting_bid = request.POST["starting_bid"]       
+        description = request.POST["description"]
+        url = request.POST["url"]
+        owner = request.POST['owner']
+        user_owner = User.objects.get(username=owner)
+        try:
+            Listings_created = Listing(name=name, category=category, starting_bid=starting_bid, description=description, url=url, owner=user_owner)
+            Listings_created.save()
+            return HttpResponseRedirect(reverse("index"))
+        except IntegrityError:
+            return render(request, "auctions/create_listing.html", {
+                "message": "Listing not created."
+            })        
+    return render(request, "auctions/create_listing.html")
