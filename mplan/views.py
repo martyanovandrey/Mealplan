@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
+from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
@@ -10,6 +10,31 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
 from .models import User
+
+import requests
+import json
+
+def call_API(request):
+    foodName = 'milk'
+    apiKey = 'xxx'
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}&query={foodName}'
+    r = requests.get(url)
+    print(r)  # 200
+    return render(request, "mplan/index.html", {
+        'r': r.json
+    })
+
+
+def call_API_2(foodName):
+    apiKey = 'xxx'
+    data = {"query" : foodName}
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}'
+    r = requests.post(url, json=data)
+    print(r.status_code)  # 200
+    return JsonResponse(r.json)
+
+#ans = call_API_2("Cheddar cheese", "xxx")
+
 
 def index(request):
 
