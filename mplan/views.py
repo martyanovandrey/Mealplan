@@ -10,13 +10,13 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
 from .models import User
-import api_key
+from api_key import *
 import requests
 import json
 
 def call_API(request):
     foodName = 'milk'
-
+    print(apiKey)
     url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}&query={foodName}'
     r = requests.get(url)
     print(r)  # 200
@@ -26,7 +26,7 @@ def call_API(request):
 
 
 def call_API_2(foodName):
-
+    print(apiKey)
     data = {"query" : foodName}
     url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}'
     r = requests.post(url, json=data)
