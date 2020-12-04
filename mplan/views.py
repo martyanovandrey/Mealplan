@@ -10,14 +10,14 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
 from .models import User
-from api_key import *
+from django.conf import settings
 import requests
 import json
 
 def call_API(request):
     foodName = 'milk'
-    print(apiKey)
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}&query={foodName}'
+    print(settings.API_KEY)
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&query={foodName}'
     r = requests.get(url)
     print(r)  # 200
     return render(request, "mplan/index.html", {
@@ -26,12 +26,15 @@ def call_API(request):
 
 
 def call_API_2(foodName):
-    print(apiKey)
+    print(settings.API_KEY)
     data = {"query" : foodName}
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={apiKey}'
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}'
     r = requests.post(url, json=data)
     print(r.status_code)  # 200
-    return JsonResponse(r.json)
+    print(r)
+    return render(request, "mplan/index.html", {
+        'r': r.json
+    })
 
 #ans = call_API_2("Cheddar cheese", "xxx")
 
