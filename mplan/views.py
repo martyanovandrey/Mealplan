@@ -14,14 +14,29 @@ from django.conf import settings
 import requests
 import json
 
+'''
 def call_API(request):
-    foodName = 'milk'
+    foodName = request.GET.get('foodName')
+
     print(settings.API_KEY)
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&query={foodName}'
+    url = f'https://api.spoonacular.com/food/ingredients/search?apiKey={settings.API_KEY}&query={foodName}'
+
+    #f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&query={foodName}'
     r = requests.get(url)
     print(r)  # 200
     return render(request, "mplan/index.html", {
-        'r': r.json
+        'r': r
+    })
+'''
+
+def call_API(request):
+    foodName = request.GET.get('foodName')
+    print(settings.API_KEY)
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}'
+    r = requests.get(url)
+    print(r)  # 200
+    return render(request, "mplan/index.html", {
+        'r': r
     })
 
 
@@ -33,7 +48,7 @@ def call_API_2(foodName):
     print(r.status_code)  # 200
     print(r)
     return render(request, "mplan/index.html", {
-        'r': r.json
+        'r': r
     })
 
 #ans = call_API_2("Cheddar cheese", "xxx")
