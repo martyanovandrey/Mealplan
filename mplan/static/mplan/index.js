@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelectorAll(".dropdown").forEach(e =>
 		e.addEventListener("keyup", function () {
-            console.log('rere')
-            //edit(e.parentNode.id)
+            findFood()
 		}))
 });
 
-function load_post(postbox) {
+function findFood() {
 	if (postbox == '') {
 		postbox = 'all'
 	}
