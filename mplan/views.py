@@ -32,27 +32,14 @@ def call_API(request):
 def call_API(request):
     foodName = request.GET.get('foodName')
     print(settings.API_KEY)
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}'
+    dataType = 'Survey (FNDDS)'
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=10'
     r = requests.get(url)
+    print(url)
     print(r)  # 200
     return render(request, "mplan/index.html", {
         'r': r
     })
-
-
-def call_API_2(foodName):
-    print(settings.API_KEY)
-    data = {"query" : foodName}
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}'
-    r = requests.post(url, json=data)
-    print(r.status_code)  # 200
-    print(r)
-    return render(request, "mplan/index.html", {
-        'r': r
-    })
-
-#ans = call_API_2("Cheddar cheese", "xxx")
-
 
 def index(request):
 
@@ -109,6 +96,7 @@ def register(request):
 
 @login_required
 def create_recipe(request):
+    '''
     if request.method == "POST":
         name = request.POST["name"]
         category = request.POST['category']
@@ -122,7 +110,8 @@ def create_recipe(request):
             Listings_created.save()
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
-            return render(request, "auctions/create_listing.html", {
+            return render(request, "mplan/create_recipe.html", {
                 "message": "Listing not created."
-            })        
-    return render(request, "auctions/create_listing.html")
+            })   
+    '''     
+    return render(request, "mplan/create_recipe.html")
