@@ -8,5 +8,5 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path('create_recipe', views.create_recipe, name='create_recipe'),
-    path('test', views.call_API, name='test')
+    path('food/<str:foodName>', views.call_API, name='food')
     ]
