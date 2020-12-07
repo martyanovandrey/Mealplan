@@ -29,17 +29,15 @@ def call_API(request):
     })
 '''
 
-def call_API(request):
-    foodName = request.GET.get('foodName')
+def call_API(request, foodName):
+    #foodName = request.GET.get('foodName')
     print(settings.API_KEY)
     dataType = 'Survey (FNDDS)'
     url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=10'
     r = requests.get(url)
     print(url)
-    print(r)  # 200
-    return render(request, "mplan/index.html", {
-        'r': r
-    })
+    print(r.json)  # 200
+    return JsonResponse({"error": "POST/PUT request required."}, status=400)
 
 def index(request):
 
