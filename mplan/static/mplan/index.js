@@ -6,10 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function findFood(foodName) {
+	let food_item = document.querySelector(".foodName")
+
+
 	fetch(`/food/${foodName}`)
 		.then(response => response.json())
-		.then(posts => {
+		.then(food => {
 			// Print emails
-			concole.log(posts);
+			console.log('Got response!');
+			console.log(food.foods[0].description);
+			console.log(food_item.innerHTML);
+			food_item.innerHTML = food.foods[0].description
 		});
 }

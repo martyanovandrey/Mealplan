@@ -37,7 +37,8 @@ def call_API(request, foodName):
     r = requests.get(url)
     print(url)
     print(r.json)  # 200
-    return JsonResponse({"error": "POST/PUT request required."}, status=400)
+    r = r.json()
+    return JsonResponse(r, safe=False)
 
 def index(request):
 
