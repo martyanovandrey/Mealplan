@@ -33,7 +33,7 @@ def call_API(request, foodName):
     #foodName = request.GET.get('foodName')
     print(settings.API_KEY)
     dataType = 'Survey (FNDDS)'
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=10'
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=5'
     r = requests.get(url)
     print(url)
     print(r.json)  # 200
