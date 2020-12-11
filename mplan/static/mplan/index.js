@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-		document.querySelector('#searchFoodButton').addEventListener('click', () => findFood(document.querySelector('#searchFood').value));	
+		document.querySelector('#searchFood').addEventListener('keyup', () => findFood(document.querySelector('#searchFood').value));	
 });
 
 

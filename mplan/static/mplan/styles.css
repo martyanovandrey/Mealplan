@@ -12,6 +12,6 @@ body {
 }
 
 .card {
-    width: 35%;
+    display:inline-block;
 }
 
