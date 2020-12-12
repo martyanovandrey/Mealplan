@@ -30,28 +30,16 @@
 
 
 
-    {% for i in r.json.foods %}
-    <div class="card" style="width: 22rem; margin: 5px;">
-        <div class="card-body">
-            <h5 class="card-title"> {{i.description}} </h5>
-            <a href="#" class="btn btn-outline-primary">Add to recipe</a>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"> {{i.foodNutrients.0.nutrientName}} - {{i.foodNutrients.0.value}} {{i.foodNutrients.0.unitName}}</li>
-            <li class="list-group-item"> {{i.foodNutrients.1.nutrientName}} - {{i.foodNutrients.1.value}} {{i.foodNutrients.1.unitName}}</li>
-            <li class="list-group-item"> {{i.foodNutrients.2.nutrientName}} - {{i.foodNutrients.2.value}} {{i.foodNutrients.2.unitName}}</li>
-            <li class="list-group-item"> {{i.foodNutrients.3.nutrientName}} - {{i.foodNutrients.3.value}} {{i.foodNutrients.3.unitName}}</li>
-        </ul>
-    </div>
-    {% endfor %}
+
 
 <div class="cardList">
     <input class="form-control" type="input" id="searchFood">
     <input class="btn btn-primary" type="submit" value="Search" id="searchFoodButton">
-  </input>
-  <div class="foodCards">
-
-  </div>
+    </input>
+<div class="ingredients">
+</div>
+<div class="foodCards">
+</div>
 </div>
     <h1 class='foodName'></h1>
 {% block script %}
