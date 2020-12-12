@@ -4,9 +4,9 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-class Listing(models.Model):
+class Recipe(models.Model):
     name = models.CharField(max_length=64)
-    ingredients = models.ManyToManyField('User', blank=True, related_name='ingredients')
+    ingredient = models.ManyToManyField('Ingredient', blank=True, related_name='ingredient')
     description = models.CharField(max_length=4096)
     category = models.CharField(max_length=64, blank=True)
     date = models.DateTimeField(auto_now_add=True, blank=True)
@@ -15,7 +15,9 @@ class Listing(models.Model):
     def __str__(self):
         return f"{self.name} {self.starting_bid}$ {self.owner}"  
 
-class Products(models.Model):
-    name = models.CharField(max_length=64)
-    category = models.CharField(max_length=64, blank=True)
+class Ingredient(models.Model):
+    recipe = models.ManyToManyField('Recipe', blank=True, related_name='recipe')
+    food_id = models.IntegerField(max_length=64)
 
+    def __str__(self):
+        return f"{self.recipe} {self.food_id}"  
