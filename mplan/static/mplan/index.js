@@ -29,8 +29,11 @@ function findFood(foodName) {
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[3].nutrientName} - ${food.foods[i].foodNutrients[3].value} ${food.foods[i].foodNutrients[3].unitName}</li>
 					</ul>`
 				foodCards.appendChild(foodCard);
+				ingredient(food.foods[i].fdcId)
+				
 			}
 		});
+
 }
 
 function addIngredient(ingredientName) {
@@ -38,16 +41,32 @@ function addIngredient(ingredientName) {
 	let ingredientDiv = document.querySelector('.ingredients')
 	let ingredient = document.createElement('button')
 	ingredient.classList.add('btn')
-	ingredient.classList.add('btn-primary')
+	ingredient.classList.add('btn-outline-primary')
+	ingredient.setAttribute('type', 'button');
 	card = ingredientDiv.parentNode
-	//ingredient.value = `${ingredientName}`
 	ingredient.innerHTML = `
-	<span class="badge badge-light">${ingredient}</span>
-	<span class="sr-only">unread messages</span>
-	
-	<button type="button" class="close" aria-label="Close">
+		${ingredientName}
+	<button type="button" class="close" aria-label="Close" onClick='remove(this)'>
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
 }
 
+function remove(el) {
+	var element = el;
+	element.parentNode.remove();
+  }
+
+function ingredient(ingredientId) {
+	fetch(`/ingredient/${ingredientId}`)
+	.then(response => response.json())
+	.then(ingredient => {
+		// Print emails
+		let quantity = document.createElement('div')
+		quantity.classList.add('card')
+		for (let i=0; i<ingredient.foodPortions.length; i++) {
+			console.log(ingredient.foodPortions[i].portionDescription)
+	}
+	}
+	);
+}

@@ -29,13 +29,18 @@ def call_API(request):
     })
 '''
 
-def call_API(request, foodName):
+def food_API(request, foodName):
     #foodName = request.GET.get('foodName')
-    print(settings.API_KEY)
     dataType = 'Survey (FNDDS)'
     url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=5'
     r = requests.get(url)
-    print(url)
+    print(r.json)  # 200
+    r = r.json()
+    return JsonResponse(r, safe=False)
+
+def ingredient_API(request, ingredientId):
+    url = f'https://api.nal.usda.gov/fdc/v1/food/{ingredientId}?api_key={settings.API_KEY}'
+    r = requests.get(url)
     print(r.json)  # 200
     r = r.json()
     return JsonResponse(r, safe=False)
@@ -114,3 +119,4 @@ def create_recipe(request):
             })   
     '''     
     return render(request, "mplan/create_recipe.html")
+
