@@ -20,34 +20,69 @@ function findFood(foodName) {
 				foodCard.innerHTML = `
 				<div class="card-body">
 					<h5 class="card-title"> ${food.foods[i].description} </h5>
-					<a href="#" class="btn btn-outline-primary" onClick='addIngredient("${food.foods[i].description}")'>Add to recipe</a>
+					<input class="form-control" type="input" id='quantityValue' value='100'>
+					<button type='button' href="#" class="btn btn-outline-primary" onClick='decreaseQuantity(this)'>-</button>
+					<button type='button' href="#" class="btn btn-outline-primary" onClick='increaseQuantity(this)'>+</button>
+					<button type='button' href="#" class="btn btn-outline-primary" onClick='addIngredient("${food.foods[i].description}", this)'>Add to recipe</button>
 				</div>
 					<ul class="list-group list-group-flush">
+						<li class="list-group-item font-weight-light" style='font-size: 0.85em; padding: 0px 6px'> Per 100 G </li>
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[0].nutrientName} - ${food.foods[i].foodNutrients[0].value} ${food.foods[i].foodNutrients[0].unitName}</li>
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[1].nutrientName} - ${food.foods[i].foodNutrients[1].value} ${food.foods[i].foodNutrients[1].unitName}</li>
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[2].nutrientName} - ${food.foods[i].foodNutrients[2].value} ${food.foods[i].foodNutrients[2].unitName}</li>
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[3].nutrientName} - ${food.foods[i].foodNutrients[3].value} ${food.foods[i].foodNutrients[3].unitName}</li>
 					</ul>`
 				foodCards.appendChild(foodCard);
+				ingredient(food.foods[i].fdcId)
+				
 			}
 		});
 }
 
-function addIngredient(ingredientName) {
+function increaseQuantity(val) {
+	let quantity = val.parentNode.querySelector('#quantityValue')
+	quantity.value = +quantity.value + 100
+
+}
+
+function decreaseQuantity(val) {
+	let quantity = val.parentNode.querySelector('#quantityValue')
+	quantity.value = +quantity.value - 100
+}
+
+
+function addIngredient(ingredientName, ingredientCard) {
 	console.log(ingredientName)
 	let ingredientDiv = document.querySelector('.ingredients')
 	let ingredient = document.createElement('button')
 	ingredient.classList.add('btn')
-	ingredient.classList.add('btn-primary')
+	ingredient.classList.add('btn-outline-primary')
+	ingredient.setAttribute('type', 'button');
+	ingredient.setAttribute('style', 'margin: 2px 4px 2px 0px');
 	card = ingredientDiv.parentNode
-	//ingredient.value = `${ingredientName}`
 	ingredient.innerHTML = `
-	<span class="badge badge-light">${ingredient}</span>
-	<span class="sr-only">unread messages</span>
-	
-	<button type="button" class="close" aria-label="Close">
+		${ingredientName} (${ingredientCard.parentNode.querySelector('#quantityValue').value} g)
+	<button type="button" class="close" aria-label="Close" onClick='remove(this)'>
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
 }
 
+function remove(el) {
+	var element = el;
+	element.parentNode.remove();
+  }
+
+function ingredient(ingredientId) {
+	fetch(`/ingredient/${ingredientId}`)
+	.then(response => response.json())
+	.then(ingredient => {
+		// Print emails
+		let quantity = document.createElement('div')
+		quantity.classList.add('card')
+		for (let i=0; i<ingredient.foodPortions.length; i++) {
+			let quantuty = ingredient.foodPortions[i].portionDescription
+	}
+	}
+	);
+}
