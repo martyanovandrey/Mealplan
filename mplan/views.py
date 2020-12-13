@@ -32,9 +32,10 @@ def call_API(request):
 def food_API(request, foodName):
     #foodName = request.GET.get('foodName')
     dataType = 'Survey (FNDDS)'
-    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=5'
+    url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=10'
     r = requests.get(url)
     print(r.json)  # 200
+    print(url)
     r = r.json()
     return JsonResponse(r, safe=False)
 
@@ -100,13 +101,11 @@ def register(request):
 
 @login_required
 def create_recipe(request):
-    '''
-    if request.method == "POST":
+    '''if request.method == "POST":
         name = request.POST["name"]
         category = request.POST['category']
-        starting_bid = request.POST["starting_bid"]       
         description = request.POST["description"]
-        url = request.POST["url"]
+        ingredients = request.POST['ingredients']
         owner = request.POST['owner']
         user_owner = User.objects.get(username=owner)
         try:
@@ -116,7 +115,6 @@ def create_recipe(request):
         except IntegrityError:
             return render(request, "mplan/create_recipe.html", {
                 "message": "Listing not created."
-            })   
-    '''     
+            })   '''
     return render(request, "mplan/create_recipe.html")
 
