@@ -101,7 +101,11 @@ def register(request):
 
 @login_required
 def create_recipe(request):
-    '''if request.method == "POST":
+    if request.method == "POST":
+        data = json.loads(request.body)
+        new_post = data["post"]
+        print(new_post)
+        '''
         name = request.POST["name"]
         category = request.POST['category']
         description = request.POST["description"]
@@ -115,6 +119,6 @@ def create_recipe(request):
         except IntegrityError:
             return render(request, "mplan/create_recipe.html", {
                 "message": "Listing not created."
-            })   '''
+            })'''
     return render(request, "mplan/create_recipe.html")
 
