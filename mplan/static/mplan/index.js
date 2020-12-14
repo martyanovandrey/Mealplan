@@ -2,7 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		document.querySelector('#searchFood').addEventListener('keyup', () => findFood(document.querySelector('#searchFood').value));	
 	});
 
+let ingredientList = [];
 
+function addIngredientList(name, amount) {
+	ingredientList.push({name, amount});
+}
 
 function findFood(foodName) {
 	let foodCards = document.querySelector(".foodCards")
@@ -50,7 +54,6 @@ function decreaseQuantity(val) {
 	quantity.value = +quantity.value - 100
 }
 
-
 function addIngredient(ingredientName, ingredientCard) {
 	console.log(ingredientName)
 	let ingredientDiv = document.querySelector('.ingredients')
@@ -66,6 +69,7 @@ function addIngredient(ingredientName, ingredientCard) {
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
+	addIngredientList(ingredientName, ingredientCard.parentNode.querySelector('#quantityValue').value)
 }
 
 function remove(el) {
@@ -73,11 +77,11 @@ function remove(el) {
 	element.parentNode.remove();
   }
 
+
 function ingredient(ingredientId) {
 	fetch(`/ingredient/${ingredientId}`)
 	.then(response => response.json())
 	.then(ingredient => {
-		// Print emails
 		let quantity = document.createElement('div')
 		quantity.classList.add('card')
 		for (let i=0; i<ingredient.foodPortions.length; i++) {
@@ -85,4 +89,22 @@ function ingredient(ingredientId) {
 	}
 	}
 	);
+}
+
+function create_recipe() {
+	fetch('/create_recipe', {
+			credentials: 'include',
+			method: 'POST',
+			mode: 'same-origin',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'X-CSRFToken': getCookie('csrftoken')
+			},
+			body: JSON.stringify({
+				post: '1337',
+				test: 'r43r3'
+			})
+		})
+		
 }
