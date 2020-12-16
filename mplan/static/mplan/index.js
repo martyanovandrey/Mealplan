@@ -116,9 +116,14 @@ function create_recipe() {
 				'X-CSRFToken': getCookie('csrftoken')
 			},
 			body: JSON.stringify({
-				post: '1337',
-				test: 'r43r3'
+				id: '1337',
+				post: 'r43r3',
+				data: '3131'
 			})
-		})
+		}).then(response => response.json())
+		.then(response => {
+			console.log('got response')
+
+		});
 		
 }

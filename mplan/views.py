@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 from django.db.models import Max
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
@@ -106,6 +107,7 @@ def create_recipe(request):
     print('im here'*100)
     if request.method == "POST":
         data = json.loads(request.body)
+        print(data)
         new_post = data["post"]
         print(new_post)
         return HttpResponse(status=204)
