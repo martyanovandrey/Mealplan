@@ -17,7 +17,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     recipe = models.ManyToManyField('Recipe', blank=True, related_name='recipe')
-    food_id = models.IntegerField(max_length=64)
+    food_id = models.IntegerField(max_length=256)
 
     def __str__(self):
         return f"{self.recipe} {self.food_id}"  
