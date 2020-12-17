@@ -120,10 +120,6 @@ function create_recipe() {
 				post: 'r43r3',
 				data: '3131'
 			})
-		}).then(response => response.json())
-		.then(response => {
-			console.log('got response')
-
-		});
+		})
 		
 }

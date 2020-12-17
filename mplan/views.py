@@ -106,11 +106,13 @@ def register(request):
 def create_recipe(request):
     print('im here'*100)
     if request.method == "POST":
-        data = json.loads(request.body)
+        '''
+        data = json.loads(request.body) 
         print(data)
         new_post = data["post"]
         print(new_post)
-        return HttpResponse(status=204)
+        '''
+        return HttpResponseRedirect(reverse("index"))
         '''
         name = request.POST["name"]
         category = request.POST['category']
