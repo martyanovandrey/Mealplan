@@ -106,9 +106,10 @@ def register(request):
 def create_recipe(request):
     print('im here'*100)
     if request.method == "POST":
+        data = request.POST
+        print(data)
         '''
         data = json.loads(request.body) 
-        print(data)
         new_post = data["post"]
         print(new_post)
         '''
