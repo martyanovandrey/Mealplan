@@ -106,7 +106,8 @@ function getCookie(name) {
 }
 
 function create_recipe() {
-	fetch('/create_recipe', {
+	debugger;
+	fetch('/create_recipe_api', {
 			credentials: 'include',
 			method: 'POST',
 			mode: 'same-origin',
