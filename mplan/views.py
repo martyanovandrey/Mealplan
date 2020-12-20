@@ -101,19 +101,25 @@ def register(request):
         return render(request, "mplan/register.html")
 
 
-
+test = 0
 @login_required
 def create_recipe(request):
     print('im here'*100)
     if request.method == "POST":
-        data = request.POST
+        global test    
+        test = test + 1
+        if test %2 == 0:
+            return HttpResponseRedirect(reverse("index"))
+        print(f' {test} '* 100)
+        data = json.loads(request.body) 
         print(data)
         '''
-        data = json.loads(request.body) 
+        data = request.POST
         new_post = data["post"]
         print(new_post)
         '''
         return HttpResponseRedirect(reverse("index"))
+        return render(request, "mplan/create_recipe.html")
         '''
         name = request.POST["name"]
         category = request.POST['category']
@@ -129,5 +135,16 @@ def create_recipe(request):
             return render(request, "mplan/create_recipe.html", {
                 "message": "Listing not created."
             })'''
+    return render(request, "mplan/create_recipe.html")
+
+@login_required
+def create_recipe_api(request):
+    print('im here'*100)
+    if request.method == "POST":
+        global test    
+        test = test + 1
+        print(f' {test} '* 100)
+        data = json.loads(request.body) 
+        print(data)
     return render(request, "mplan/create_recipe.html")
 
