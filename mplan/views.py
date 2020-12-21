@@ -112,14 +112,16 @@ def create_recipe(request):
             return HttpResponseRedirect(reverse("index"))
         print(f' {test} '* 100)
         data = json.loads(request.body) 
-        print(data)
-        '''
-        data = request.POST
+        data2 = data['ingredientList'].name
+        print(data2)
+        recite_id = data["id"]
         new_post = data["post"]
+        recipe_data = data["data"]
+
+        '''
         print(new_post)
         '''
         return HttpResponseRedirect(reverse("index"))
-        return render(request, "mplan/create_recipe.html")
         '''
         name = request.POST["name"]
         category = request.POST['category']
@@ -139,12 +141,25 @@ def create_recipe(request):
 
 @login_required
 def create_recipe_api(request):
-    print('im here'*100)
+    print('im here'*10)
     if request.method == "POST":
         global test    
         test = test + 1
-        print(f' {test} '* 100)
-        data = json.loads(request.body) 
-        print(data)
+        '''
+        test2 = request.POST
+        new_post = test2["name"]
+        print(new_post * 10)'''
+        print(f'------------------------Im calling CREATE_RECIPE_API - _____ {test} ____ TIMES-----------------------------')
+        data_json = json.loads(request.body)
+        
+        '''
+        for i in data_json['ingredientList']:
+            Recipe_created = Recipe(name=name, ingredient=ingredient, description=description, creator=creator)
+            Recipe_created.save()
+        ingredient_name = data['name']
+        ingredient_amount = data['amount']
+        print(ingredient_name)
+        print(ingredient_amount)
+            '''
     return render(request, "mplan/create_recipe.html")
 

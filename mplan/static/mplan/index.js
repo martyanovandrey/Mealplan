@@ -117,9 +117,7 @@ function create_recipe() {
 				'X-CSRFToken': getCookie('csrftoken')
 			},
 			body: JSON.stringify({
-				id: '1337',
-				post: 'r43r3',
-				data: '3131'
+				ingredientList
 			})
 		})
 		
