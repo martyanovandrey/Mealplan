@@ -9,7 +9,7 @@
         <div>{{ message }}</div>
     {% endif %}
 
-    <form method="post">
+    <form action="{% url 'create_recipe_api' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <input autofocus class="form-control" type="text" name="name" placeholder="Name">
@@ -25,7 +25,7 @@
         <div class="ingredients">
         </div>
     </form>
-        <a class="btn btn-primary" type="submit" value="Create" onclick='create_recipe()'></a>
+        <input class="btn btn-primary" type="submit" value="Create" onclick='create_recipe()'>
 
 <div class="cardList" style='margin: 30px 0px'>
     <h5>Search for ingredients:</h5>
