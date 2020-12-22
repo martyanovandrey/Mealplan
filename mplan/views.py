@@ -105,6 +105,8 @@ test = 0
 @login_required
 def create_recipe(request):
     print('im here'*100)
+    return render(request, "mplan/create_recipe.html")
+    '''
     if request.method == "POST":
         global test    
         test = test + 1
@@ -118,11 +120,9 @@ def create_recipe(request):
         new_post = data["post"]
         recipe_data = data["data"]
 
-        '''
         print(new_post)
-        '''
+
         return HttpResponseRedirect(reverse("index"))
-        '''
         name = request.POST["name"]
         category = request.POST['category']
         description = request.POST["description"]
@@ -134,10 +134,10 @@ def create_recipe(request):
             Listings_created.save()
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
+
             return render(request, "mplan/create_recipe.html", {
                 "message": "Listing not created."
             })'''
-    return render(request, "mplan/create_recipe.html")
 
 @login_required
 def create_recipe_api(request):
@@ -151,6 +151,9 @@ def create_recipe_api(request):
         print(new_post * 10)'''
         print(f'------------------------Im calling CREATE_RECIPE_API - _____ {test} ____ TIMES-----------------------------')
         data_json = json.loads(request.body)
+        print(data_json)
+        data_forms = request.POST["name"]
+        print(data_forms)
         
         '''
         for i in data_json['ingredientList']:
