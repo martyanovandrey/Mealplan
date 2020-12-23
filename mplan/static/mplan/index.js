@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let ingredientList = [];
 
-function addIngredientList(name, amount) {
-	ingredientList.push({name, amount});
+function addIngredientList(name, id, amount) {
+	ingredientList.push({name, id, amount});
 }
 
 function findFood(foodName) {
@@ -27,7 +27,7 @@ function findFood(foodName) {
 					<input class="form-control" type="input" id='quantityValue' value='100'>
 					<button type='button' href="#" class="btn btn-outline-primary" onClick='decreaseQuantity(this)'>-</button>
 					<button type='button' href="#" class="btn btn-outline-primary" onClick='increaseQuantity(this)'>+</button>
-					<button type='button' href="#" class="btn btn-outline-primary" onClick='addIngredient("${food.foods[i].description}", this)'>Add to recipe</button>
+					<button type='button' href="#" class="btn btn-outline-primary" onClick='addIngredient("${food.foods[i].fdcId}", "${food.foods[i].description}", this)'>Add to recipe</button>
 				</div>
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item font-weight-light" style='font-size: 0.85em; padding: 0px 6px'> Per 100 G </li>
@@ -37,7 +37,6 @@ function findFood(foodName) {
 						<li class="list-group-item"> ${food.foods[i].foodNutrients[3].nutrientName} - ${food.foods[i].foodNutrients[3].value} ${food.foods[i].foodNutrients[3].unitName}</li>
 					</ul>`
 				foodCards.appendChild(foodCard);
-				ingredient(food.foods[i].fdcId)
 				
 			}
 		});
@@ -54,7 +53,7 @@ function decreaseQuantity(val) {
 	quantity.value = +quantity.value - 100
 }
 
-function addIngredient(ingredientName, ingredientCard) {
+function addIngredient(ingredientId, ingredientName, ingredientCard) {
 	console.log(ingredientName)
 	let ingredientDiv = document.querySelector('.ingredients')
 	let ingredient = document.createElement('button')
@@ -69,7 +68,7 @@ function addIngredient(ingredientName, ingredientCard) {
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
-	addIngredientList(ingredientName, ingredientCard.parentNode.querySelector('#quantityValue').value)
+	addIngredientList(ingredientName, ingredientId, ingredientCard.parentNode.querySelector('#quantityValue').value)
 }
 
 function remove(el) {
@@ -77,7 +76,7 @@ function remove(el) {
 	element.parentNode.remove();
   }
 
-
+/* food portions
 function ingredient(ingredientId) {
 	fetch(`/ingredient/${ingredientId}`)
 	.then(response => response.json())
@@ -90,6 +89,7 @@ function ingredient(ingredientId) {
 	}
 	);
 }
+*/
 
 function getCookie(name) {
 	if (!document.cookie) {
@@ -117,7 +117,11 @@ function create_recipe() {
 				'X-CSRFToken': getCookie('csrftoken')
 			},
 			body: JSON.stringify({
-				ingredientList
+				ingredientList,
+				name: document.getElementById('name-field').value,
+				category: document.getElementById('category-field').value,
+				description: document.getElementById('description-field').value
+				
 			})
 		})
 		

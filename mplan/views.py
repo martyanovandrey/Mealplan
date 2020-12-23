@@ -10,7 +10,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import User, Recipe, Ingredient
 from django.conf import settings
 import requests
 import json
@@ -145,24 +145,18 @@ def create_recipe_api(request):
     if request.method == "POST":
         global test    
         test = test + 1
-        '''
-        test2 = request.POST
-        new_post = test2["name"]
-        print(new_post * 10)'''
-        print(f'------------------------Im calling CREATE_RECIPE_API - _____ {test} ____ TIMES-----------------------------')
         data_json = json.loads(request.body)
         print(data_json)
-        data_forms = request.POST["name"]
-        print(data_forms)
-        
-        '''
+        name = data_json['name']
+        category = data_json['category']
+        description = data_json['description']
+        print(name)
+        print(category)
+        print(description)
         for i in data_json['ingredientList']:
-            Recipe_created = Recipe(name=name, ingredient=ingredient, description=description, creator=creator)
-            Recipe_created.save()
-        ingredient_name = data['name']
-        ingredient_amount = data['amount']
-        print(ingredient_name)
-        print(ingredient_amount)
-            '''
+            print(i)
+            Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'])
+            Ingredient_created.save()
+        #Recipe_created = Recipe(name=i['name'], ingredient=i['ingredient'], description=i['description'], creator=i['creator'])
     return render(request, "mplan/create_recipe.html")
 
