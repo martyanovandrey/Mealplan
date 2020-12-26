@@ -152,14 +152,13 @@ def create_recipe_api(request):
         description = data_json['description']
         print(name)
         print(category)
-        print(description)
         Recipe_created = Recipe(name=name, description=description, category=category)
         for i in data_json['ingredientList']:
             print(i)
             Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'])
             Ingredient_created.save()
-            Ingdedient = Ingredient.objects.get(id=i['id'])
-            Recipe_created.ingredient.add(Ingredient_created)  
+            Ingdedient = Ingredient_created.objects.get(id=i['id'])
+            Recipe_created.ingredient.add(Ingdedient)  
         Recipe_created.save()
     return render(request, "mplan/create_recipe.html")
 
