@@ -13,7 +13,7 @@ class Recipe(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
 
     def __str__(self):
-        return f"{self.name} {self.ingredient} {self.description}"  
+        return f"{self.creator} {self.name}"  
 
 class Ingredient(models.Model):
     food_id = models.IntegerField()
@@ -22,4 +22,4 @@ class Ingredient(models.Model):
     recipe = models.ManyToManyField('Recipe', blank=True, related_name='recipe')
 
     def __str__(self):
-        return f"{self.recipe} {self.food_id} {self.amount}"  
+        return f"{self.name} {self.amount}"  

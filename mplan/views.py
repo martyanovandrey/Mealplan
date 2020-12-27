@@ -48,8 +48,12 @@ def ingredient_API(request, ingredientId):
     return JsonResponse(r, safe=False)
 
 def index(request):
-
-    return render(request, "mplan/index.html")
+    all_recipes = Recipe.objects.all()
+    #Get unique values from category query
+    all_categories = Recipe.objects.values('category').distinct().exclude(category__exact='')
+    return render(request, "mplan/index.html", {
+                    "all_categories": all_categories,     
+                    "all_recipes": all_recipes})
 
 def login_view(request):
     if request.method == "POST":
@@ -100,8 +104,6 @@ def register(request):
     else:
         return render(request, "mplan/register.html")
 
-
-test = 0
 @login_required
 def create_recipe(request):
     print('im here'*100)
@@ -143,22 +145,30 @@ def create_recipe(request):
 def create_recipe_api(request):
     print('im here'*10)
     if request.method == "POST":
-        global test    
-        test = test + 1
         data_json = json.loads(request.body)
         print(data_json)
+        username = data_json['username']
+        user = User.objects.get(username=username)
         name = data_json['name']
         category = data_json['category']
         description = data_json['description']
-        print(name)
-        print(category)
-        Recipe_created = Recipe(name=name, description=description, category=category)
+        Recipe_created = Recipe(name=name, description=description, category=category, creator=user)
+        Recipe_created.save()
         for i in data_json['ingredientList']:
-            print(i)
             Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'])
             Ingredient_created.save()
-            Ingdedient = Ingredient_created.objects.get(id=i['id'])
-            Recipe_created.ingredient.add(Ingdedient)  
-        Recipe_created.save()
-    return render(request, "mplan/create_recipe.html")
+            Recipe_created.ingredient.add(Ingredient_created)  
+    return render(request, "mplan/index.html")
 
+
+@login_required
+def recipe(request, recipe_id):
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+        curent_user = request.user.id  
+    except Recipe.DoesNotExist:
+        raise Http404("Recipe not found.")
+    recipe_item = Recipe.objects.get(id = recipe_id)
+    return render(request, "mplan/recipe.html", {
+        "recipe": recipe_item
+    })

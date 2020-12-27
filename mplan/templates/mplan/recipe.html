@@ -1,0 +1,17 @@
+{% extends "mplan/layout.html" %}
+
+{% block body %}
+<div class="card">
+    <img class='card-img-top' src="{{ recipe.url}}" class="card-img-full">
+    <div class="card-body">
+        <h4 class="card-title"> {{ recipe.name}} </h4>
+        {% if recipe.category %}
+            <a href="category/{{recipe.category}}" class="badge badge-primary"> {{recipe.category}} </a>
+        {% endif %}
+        <p> {{ recipe.description }} </p>
+        <p> Added by: {{ recipe.creator }} </p>
+        <p> Date: {{ recipe.date }} </p>
+
+    </div>
+</div>
+{% endblock %}

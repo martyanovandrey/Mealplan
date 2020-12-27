@@ -68,12 +68,21 @@ function addIngredient(ingredientId, ingredientName, ingredientCard) {
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
+	ingredientAdded = {
+		name: ingredientName,
+		id: ingredientId,
+		value: ingredientCard.parentNode.querySelector('#quantityValue').value,
+		protein: 
+
+	}
 	addIngredientList(ingredientName, ingredientId, ingredientCard.parentNode.querySelector('#quantityValue').value)
 }
 
 function remove(el) {
-	var element = el;
-	element.parentNode.remove();
+	let element = el.parentNode;
+	let IngredientIndex = Array.from(element.parentNode.children).indexOf(element)
+	ingredientList.splice(IngredientIndex, 1)
+	element.remove();
   }
 
 /* food portions
@@ -118,6 +127,7 @@ function create_recipe() {
 			},
 			body: JSON.stringify({
 				ingredientList,
+				username: document.getElementById('username-field').value,
 				name: document.getElementById('name-field').value,
 				category: document.getElementById('category-field').value,
 				description: document.getElementById('description-field').value
