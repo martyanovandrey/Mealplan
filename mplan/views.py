@@ -44,6 +44,7 @@ def ingredient_API(request, ingredientId):
     url = f'https://api.nal.usda.gov/fdc/v1/food/{ingredientId}?api_key={settings.API_KEY}'
     r = requests.get(url)
     #print(r.json)  # 200
+    print(url)
     r = r.json()
     return JsonResponse(r, safe=False)
 

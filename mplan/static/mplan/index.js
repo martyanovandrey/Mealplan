@@ -8,6 +8,8 @@ function addIngredientList(name, id, amount) {
 	ingredientList.push({name, id, amount});
 }
 
+
+
 function findFood(foodName) {
 	let foodCards = document.querySelector(".foodCards")
 	foodCards.innerHTML = ''
@@ -19,6 +21,15 @@ function findFood(foodName) {
 			console.log('Got response!');
 			console.log(food.foods[0].description);
 			for (let i=0; i<food.foods.length; i++) {
+
+				let ingredientObj = {
+					name: food.foods[i].description,
+					protein: food.foods[i].foodNutrients[0].value,
+					fat: food.foods[i].foodNutrients[1].value,
+					carb: food.foods[i].foodNutrients[2].value,
+					energy: food.foods[i].foodNutrients[3].value
+				}
+
 				let foodCard = document.createElement('div')
 				foodCard.classList.add('card')
 				foodCard.innerHTML = `
@@ -68,13 +79,7 @@ function addIngredient(ingredientId, ingredientName, ingredientCard) {
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
-	ingredientAdded = {
-		name: ingredientName,
-		id: ingredientId,
-		value: ingredientCard.parentNode.querySelector('#quantityValue').value,
-		protein: 
 
-	}
 	addIngredientList(ingredientName, ingredientId, ingredientCard.parentNode.querySelector('#quantityValue').value)
 }
 
