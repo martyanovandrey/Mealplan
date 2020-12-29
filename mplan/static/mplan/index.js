@@ -8,7 +8,13 @@ function addIngredientList(name, id, amount) {
 	ingredientList.push({name, id, amount});
 }
 
-
+let ingredientObj = {
+	name: String(),
+	protein: Number(),
+	fat: Number(),
+	carb: Number(),
+	energy: Number()
+}
 
 function findFood(foodName) {
 	let foodCards = document.querySelector(".foodCards")
@@ -22,13 +28,14 @@ function findFood(foodName) {
 			console.log(food.foods[0].description);
 			for (let i=0; i<food.foods.length; i++) {
 
-				let ingredientObj = {
+				/* Create new ingredientObj 
+				new ingredientObj = {
 					name: food.foods[i].description,
 					protein: food.foods[i].foodNutrients[0].value,
 					fat: food.foods[i].foodNutrients[1].value,
 					carb: food.foods[i].foodNutrients[2].value,
 					energy: food.foods[i].foodNutrients[3].value
-				}
+				} */
 
 				let foodCard = document.createElement('div')
 				foodCard.classList.add('card')
