@@ -8,13 +8,14 @@ function addIngredientList(name, id, amount) {
 	ingredientList.push({name, id, amount});
 }
 
+/*
 let ingredientObj = {
 	name: String(),
 	protein: Number(),
 	fat: Number(),
 	carb: Number(),
 	energy: Number()
-}
+} */
 
 function findFood(foodName) {
 	let foodCards = document.querySelector(".foodCards")
