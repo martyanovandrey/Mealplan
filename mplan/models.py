@@ -20,6 +20,10 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=512, blank=True)
     amount = models.IntegerField(blank=True, null=True)
     recipe = models.ManyToManyField('Recipe', blank=True, related_name='recipe')
+    protein = models.IntegerField(blank=True, null=True)
+    fat = models.IntegerField(blank=True, null=True)
+    carb = models.IntegerField(blank=True, null=True)
+    energy = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} {self.amount}"  

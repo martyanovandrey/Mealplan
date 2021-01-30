@@ -155,10 +155,21 @@ def create_recipe_api(request):
         description = data_json['description']
         Recipe_created = Recipe(name=name, description=description, category=category, creator=user)
         Recipe_created.save()
+        print(data_json['ingredientList'])
         for i in data_json['ingredientList']:
-            Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'])
-            Ingredient_created.save()
-            Recipe_created.ingredient.add(Ingredient_created)  
+            Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
+            if Ingredient.objects.filter(food_id=i['id'],  name=i['name'], amount=i['amount']).exists():
+                print('bb'*100)
+                Igredient_old = Ingredient.objects.get(food_id=i['id'],  name=i['name'], amount=i['amount'])
+                Recipe_created.ingredient.add(Igredient_old)
+            else:
+                print('aa'*100)
+                ''' Add recipe to ingredient
+                Recipe_get = Recipe.objects.get(name=name, description=description, category=category, creator=user)
+                Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], recipe=Recipe_get, protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
+                '''
+                Ingredient_created.save()
+                Recipe_created.ingredient.add(Ingredient_created)  
     return render(request, "mplan/index.html")
 
 
@@ -170,6 +181,19 @@ def recipe(request, recipe_id):
     except Recipe.DoesNotExist:
         raise Http404("Recipe not found.")
     recipe_item = Recipe.objects.get(id = recipe_id)
+    summProtein = 0
+    summFat = 0
+    summCarb = 0
+    summEnergy = 0
+    for i in recipe_item.ingredient.all():
+        summProtein += i.protein
+        summFat += i.fat
+        summCarb += i.carb
+        summEnergy += i.energy
     return render(request, "mplan/recipe.html", {
-        "recipe": recipe_item
+        "recipe": recipe_item,
+        'summProtein': summProtein,
+        'summFat': summFat,
+        'summCarb': summCarb,
+        'summEnergy': summEnergy
     })

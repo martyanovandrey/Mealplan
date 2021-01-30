@@ -11,6 +11,36 @@
         <p> {{ recipe.description }} </p>
         <p> Added by: {{ recipe.creator }} </p>
         <p> Date: {{ recipe.date }} </p>
+        <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th scope="col"> Name </th>
+                            <th scope="col"> Protein </th>
+                            <th scope="col"> Fat </th>
+                            <th scope="col"> Carb </th>
+                            <th scope="col"> Energy </th>
+                        </tr>
+                    </thead>
+                  <tbody>
+                {% for item in recipe.ingredient.all %}
+                        <tr>
+                            <th scope="row"> {{ item.name }}, {{ item.amount }} </th>
+                            <td> {{ item.protein}} </td>
+                            <td> {{ item.fat }} </td>
+                            <td> {{ item.carb }} </td>
+                            <td> {{ item.energy }} </td>
+                        </tr>
+                {% endfor %}
+                  </tbody>
+                        <tr>
+                            <th scope="row"> Summ </th>
+                            <td> {{ summProtein }} </td>
+                            <td> {{ summFat }} </td>
+                            <td> {{ summCarb }} </td>
+                            <td> {{ summEnergy }} </td>
+                        </tr>
+        </table>
 
     </div>
 </div>

@@ -4,8 +4,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let ingredientList = [];
 
-function addIngredientList(name, id, amount) {
-	ingredientList.push({name, id, amount});
+function addIngredientList(name, id, amount, protein, fat, carb, energy) {
+	name = ingredientsData['name']
+	id = Number(ingredientsData['id'])
+	amount = Number(ingredientsData['amount'])
+	protein = Number(ingredientsData['protein']) * (amount/100)
+	fat = Number(ingredientsData['fat']) * (amount/100)
+	carb = Number(ingredientsData['carb']) * (amount/100)
+	energy = Number(ingredientsData['energy']) * (amount/100)
+
+
+	ingredientList.push({name, id, amount, protein, fat, carb, energy});
 }
 
 /*
@@ -50,10 +59,10 @@ function findFood(foodName) {
 				</div>
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item font-weight-light" style='font-size: 0.85em; padding: 0px 6px'> Per 100 G </li>
-						<li class="list-group-item"> ${food.foods[i].foodNutrients[0].nutrientName} - ${food.foods[i].foodNutrients[0].value} ${food.foods[i].foodNutrients[0].unitName}</li>
-						<li class="list-group-item"> ${food.foods[i].foodNutrients[1].nutrientName} - ${food.foods[i].foodNutrients[1].value} ${food.foods[i].foodNutrients[1].unitName}</li>
-						<li class="list-group-item"> ${food.foods[i].foodNutrients[2].nutrientName} - ${food.foods[i].foodNutrients[2].value} ${food.foods[i].foodNutrients[2].unitName}</li>
-						<li class="list-group-item"> ${food.foods[i].foodNutrients[3].nutrientName} - ${food.foods[i].foodNutrients[3].value} ${food.foods[i].foodNutrients[3].unitName}</li>
+						<li class="list-group-item" id='protein' data-value=${food.foods[i].foodNutrients[0].value}> ${food.foods[i].foodNutrients[0].nutrientName} - ${food.foods[i].foodNutrients[0].value} ${food.foods[i].foodNutrients[0].unitName}</li>
+						<li class="list-group-item" id='fat' data-value=${food.foods[i].foodNutrients[1].value}> ${food.foods[i].foodNutrients[1].nutrientName} - ${food.foods[i].foodNutrients[1].value} ${food.foods[i].foodNutrients[1].unitName}</li>
+						<li class="list-group-item" id='carb' data-value=${food.foods[i].foodNutrients[2].value}> ${food.foods[i].foodNutrients[2].nutrientName} - ${food.foods[i].foodNutrients[2].value} ${food.foods[i].foodNutrients[2].unitName}</li>
+						<li class="list-group-item" id='energy' data-value=${food.foods[i].foodNutrients[3].value}> ${food.foods[i].foodNutrients[3].nutrientName} - ${food.foods[i].foodNutrients[3].value} ${food.foods[i].foodNutrients[3].unitName}</li>
 					</ul>`
 				foodCards.appendChild(foodCard);
 				
@@ -73,7 +82,7 @@ function decreaseQuantity(val) {
 }
 
 function addIngredient(ingredientId, ingredientName, ingredientCard) {
-	console.log(ingredientName)
+	console.log(ingredientCard.parentNode.parentNode.querySelector('#list-group-item'))
 	let ingredientDiv = document.querySelector('.ingredients')
 	let ingredient = document.createElement('button')
 	ingredient.classList.add('btn')
@@ -87,8 +96,16 @@ function addIngredient(ingredientId, ingredientName, ingredientCard) {
   		<span aria-hidden="true">&times;</span>
 	</button>`
 	ingredientDiv.appendChild(ingredient);
-
-	addIngredientList(ingredientName, ingredientId, ingredientCard.parentNode.querySelector('#quantityValue').value)
+	ingredientsData = {
+		'name': ingredientName,
+		'id': ingredientId,
+		'amount': ingredientCard.parentNode.querySelector('#quantityValue').value,
+		'protein': ingredientCard.parentNode.parentNode.querySelector('#protein').dataset.value,
+		'fat': ingredientCard.parentNode.parentNode.querySelector('#fat').dataset.value,
+		'carb': ingredientCard.parentNode.parentNode.querySelector('#carb').dataset.value,
+		'energy': ingredientCard.parentNode.parentNode.querySelector('#energy').dataset.value
+	}
+	addIngredientList(ingredientsData)
 }
 
 function remove(el) {
