@@ -12,9 +12,16 @@ body {
 }
 
 .card {
-    display:inline-block;
-    width: 22rem; 
+    display: inline-block;
     margin: 5px 10px 5px 0px;
 }
+
+.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+ }
 
 
