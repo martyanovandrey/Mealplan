@@ -15,6 +15,7 @@ function addIngredientList(name, id, amount, protein, fat, carb, energy) {
 
 
 	ingredientList.push({name, id, amount, protein, fat, carb, energy});
+	console.log(ingredientList)
 }
 
 /*
@@ -49,6 +50,7 @@ function findFood(foodName) {
 
 				let foodCard = document.createElement('div')
 				foodCard.classList.add('card')
+				foodCard.setAttribute('style', 'width: 400px');
 				foodCard.innerHTML = `
 				<div class="card-body">
 					<h5 class="card-title"> ${food.foods[i].description} </h5>
@@ -145,7 +147,6 @@ function getCookie(name) {
 }
 
 function create_recipe() {
-	debugger;
 	fetch('/create_recipe_api', {
 			credentials: 'include',
 			method: 'POST',
@@ -166,3 +167,50 @@ function create_recipe() {
 		})
 		
 }
+
+function delete_recipe(id) {
+	fetch('/delete_recipe', {
+		credentials: 'include',
+		method: 'POST',
+		mode: 'same-origin',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'X-CSRFToken': getCookie('csrftoken')
+		},
+		body: JSON.stringify({
+			id: id
+		})
+		
+	})
+	console.log(id)
+		
+}
+
+function edit_recipe(id) {
+	fetch('/edit_recipe_api', {
+			credentials: 'include',
+			method: 'PUT',
+			mode: 'same-origin',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'X-CSRFToken': getCookie('csrftoken')
+			},
+			body: JSON.stringify({
+				ingredientList,
+				deleteIngredients,
+				id: id,
+				username: document.getElementById('username-field').value,
+				name: document.getElementById('name-field').value,
+				category: document.getElementById('category-field').value,
+				description: document.getElementById('description-field').value
+				
+			})
+			 
+		})
+		console.log('all good')
+	}
+		
+
+

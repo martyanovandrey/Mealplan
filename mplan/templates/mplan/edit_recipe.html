@@ -1,0 +1,85 @@
+{% extends "mplan/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h2>Edit recipe</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+        <input autofocus id='name-field' class="form-control" type="text" name="name" placeholder="Name" value='{{recipe.name}}'>
+        </div>
+        <div class="form-group">
+            <input id='category-field' class="form-control" type="text" name="category" placeholder="Category" value='{{recipe.category}}'>
+        </div>
+        <div class="form-group">
+            <textarea id='description-field' class="form-control" id="exampleFormControlTextarea1" rows="6" type="text" name="description">{{recipe.description}}</textarea>
+        </div>
+        <div class="form-group">             
+        <input name="owner" id='username-field' type='hidden' value='{{ user.username }}'>
+        <div class="ingredients">
+        </div>
+    </form>
+
+    <form action="/">
+        <button class="btn btn-primary" onclick='edit_recipe({{recipe.id}})'>Edit</button>
+    </form>
+<div class="cardList" style='margin: 30px 0px'>
+    <h5>Search for ingredients:</h5>
+    <input class="form-control" type="input" id="searchFood" placeholder='Ingredients' style='margin: 5px 10px 5px 0px;'>
+    </input>
+    <div class="foodCards">
+    </div>
+</div>
+    <h1 class='foodName'></h1>
+{% block script %}
+    <script src="{% static 'mplan/index.js' %}"></script>
+    <script>
+    
+    let deleteIngredients = []
+    {% for item in recipe.ingredient.all %}
+        //console.log('{{item}}')
+        fakeButton('{{item.name}} ({{item.amount}} g)', {{item.id}})
+    {% endfor %}
+
+
+    function fakeButton(button, id) {
+        console.log(button)
+        
+        
+        let ingredientDiv = document.querySelector('.ingredients')
+        let ingredient = document.createElement('button')
+        ingredient.classList.add('btn')
+        ingredient.classList.add('btn-outline-primary')
+        ingredient.setAttribute('type', 'button');
+        ingredient.setAttribute('style', 'margin: 2px 4px 2px 0px');
+        card = ingredientDiv.parentNode
+        ingredient.innerHTML = `
+            ${button}
+        <button type="button" class="close" aria-label="Close" onClick='removeIngredients(this, ${id})'>
+            <span aria-hidden="true">&times;</span>
+        </button>`
+        ingredientDiv.appendChild(ingredient);
+
+    }
+
+    function removeIngredients(el, id) {
+        let element = el.parentNode;
+        element.remove();
+    
+        deleteIngredients.push(id)
+        console.log(deleteIngredients)
+    }
+
+    </script>
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+

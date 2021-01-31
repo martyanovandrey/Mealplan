@@ -56,6 +56,15 @@ def index(request):
                     "all_categories": all_categories,     
                     "all_recipes": all_recipes})
 
+def category(request, category):
+    Recipe_category = Recipe.objects.filter(category=category)
+    #Get unique values from category query
+    all_categories = Recipe.objects.values('category').distinct().exclude(category__exact='')
+    return render(request, "mplan/index.html", {
+                    "category": category,
+                    "all_categories": all_categories,     
+                    "all_recipes": Recipe_category})                    
+
 def login_view(request):
     if request.method == "POST":
 
@@ -197,3 +206,53 @@ def recipe(request, recipe_id):
         'summCarb': summCarb,
         'summEnergy': summEnergy
     })
+
+@login_required
+def delete_recipe(request):
+    if request.method == "POST":
+        data_json = json.loads(request.body)
+        id = data_json['id']
+        Recipe.objects.filter(id=id).delete()
+
+@login_required
+def edit_recipe(request, recipeId):
+    recipe = Recipe.objects.get(id=recipeId)
+    return render(request, "mplan/edit_recipe.html", {
+            'recipe': recipe
+    })
+
+@login_required
+def edit_recipe_api(request):
+    if request.method == "PUT":
+        data_json = json.loads(request.body)
+        print(data_json)
+        id = data_json['id']
+        username = data_json['username']
+        user = User.objects.get(username=username)
+        name = data_json['name']
+        category = data_json['category']
+        description = data_json['description']
+        Recipe_update = Recipe.objects.get(id=id)
+        Recipe_update.name = name
+        Recipe_update.description = description
+        Recipe_update.category = category
+        Recipe_update.save()
+        print(data_json['ingredientList'])
+        
+        for i in data_json['deleteIngredients']:
+            Ingredient.objects.get(id=i).delete()
+        for i in data_json['ingredientList']:
+            Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
+            if Ingredient.objects.filter(food_id=i['id'],  name=i['name'], amount=i['amount']).exists():
+                print('bb'*100)
+                Igredient_old = Ingredient.objects.get(food_id=i['id'],  name=i['name'], amount=i['amount'])
+                Recipe_update.ingredient.add(Igredient_old)
+                
+            else:
+                print('aa'*100)
+
+                Ingredient_created.save()
+                Recipe_update.ingredient.add(Ingredient_created) 
+                
+                 
+    return render(request, "mplan/index.html")

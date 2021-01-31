@@ -1,14 +1,25 @@
 {% extends "mplan/layout.html" %}
+{% load static %}
 
 {% block body %}
 <div class="card">
     <img class='card-img-top' src="{{ recipe.url}}" class="card-img-full">
     <div class="card-body">
         <h4 class="card-title"> {{ recipe.name}} </h4>
+        {% if recipe.creator|stringformat:"s" == user.username|stringformat:"s" %}
+        <div class="d-flex flex-row justify-content-end">
+             <form action="edit_recipe/{{recipe.id}}">
+                <button class="btn btn-outline-primary btn-sm" onclick=edit_recipe({{recipe.id}})>Edit recipe</button>
+            </form>
+            <form action="/">
+                <button class="btn btn-outline-danger btn-sm" onclick=delete_recipe({{recipe.id}})>Delete recipe</button>
+            </form>
+        </div>
+        {% endif %}
         {% if recipe.category %}
             <a href="category/{{recipe.category}}" class="badge badge-primary"> {{recipe.category}} </a>
         {% endif %}
-        <p> {{ recipe.description }} </p>
+        <p> {{ recipe.description|linebreaks }} </p>
         <p> Added by: {{ recipe.creator }} </p>
         <p> Date: {{ recipe.date }} </p>
         <table class="table">
@@ -44,4 +55,8 @@
 
     </div>
 </div>
+{% block script %}
+    <script src="{% static 'mplan/index.js' %}"></script>
+{% endblock %}
+
 {% endblock %}
