@@ -15,5 +15,6 @@ urlpatterns = [
     path("category/<str:category>", views.category, name="category"),
     path("delete_recipe", views.delete_recipe, name="delete_recipe"),
     path("edit_recipe/<int:recipeId>", views.edit_recipe, name="edit_recipe"),
-    path('edit_recipe_api', views.edit_recipe_api, name='edit_recipe_api')
+    path('edit_recipe_api', views.edit_recipe_api, name='edit_recipe_api'),
+    path('redirect', views.redirect, name='redirect')
     ]

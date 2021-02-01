@@ -9,46 +9,36 @@ from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
+import time
 
 from .models import User, Recipe, Ingredient
 from django.conf import settings
 import requests
 import json
 
-'''
-def call_API(request):
-    foodName = request.GET.get('foodName')
-
-    print(settings.API_KEY)
-    url = f'https://api.spoonacular.com/food/ingredients/search?apiKey={settings.API_KEY}&query={foodName}'
-
-    #f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&query={foodName}'
-    r = requests.get(url)
-    print(r)  # 200
-    return render(request, "mplan/index.html", {
-        'r': r
-    })
-'''
-
 def food_API(request, foodName):
     #foodName = request.GET.get('foodName')
     dataType = 'Survey (FNDDS)'
     url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={settings.API_KEY}&ds=Standard%20Reference&query={foodName}&dataType={dataType}&pageSize=10'
     r = requests.get(url)
-    #print(r.json)  # 200
-    #print(url)
     r = r.json()
     return JsonResponse(r, safe=False)
 
 def ingredient_API(request, ingredientId):
     url = f'https://api.nal.usda.gov/fdc/v1/food/{ingredientId}?api_key={settings.API_KEY}'
     r = requests.get(url)
-    #print(r.json)  # 200
-    print(url)
     r = r.json()
     return JsonResponse(r, safe=False)
 
 def index(request):
+    all_recipes = Recipe.objects.all()
+    #Get unique values from category query
+    all_categories = Recipe.objects.values('category').distinct().exclude(category__exact='')
+    return render(request, "mplan/index.html", {
+                    "all_categories": all_categories,     
+                    "all_recipes": all_recipes})
+
+def redirect(request):
     all_recipes = Recipe.objects.all()
     #Get unique values from category query
     all_categories = Recipe.objects.values('category').distinct().exclude(category__exact='')
@@ -116,47 +106,14 @@ def register(request):
 
 @login_required
 def create_recipe(request):
-    print('im here'*100)
     return render(request, "mplan/create_recipe.html")
-    '''
-    if request.method == "POST":
-        global test    
-        test = test + 1
-        if test %2 == 0:
-            return HttpResponseRedirect(reverse("index"))
-        print(f' {test} '* 100)
-        data = json.loads(request.body) 
-        data2 = data['ingredientList'].name
-        print(data2)
-        recite_id = data["id"]
-        new_post = data["post"]
-        recipe_data = data["data"]
-
-        print(new_post)
-
-        return HttpResponseRedirect(reverse("index"))
-        name = request.POST["name"]
-        category = request.POST['category']
-        description = request.POST["description"]
-        ingredients = request.POST['ingredients']
-        owner = request.POST['owner']
-        user_owner = User.objects.get(username=owner)
-        try:
-            Listings_created = Listing(name=name, category=category, starting_bid=starting_bid, description=description, url=url, owner=user_owner)
-            Listings_created.save()
-            return HttpResponseRedirect(reverse("index"))
-        except IntegrityError:
-
-            return render(request, "mplan/create_recipe.html", {
-                "message": "Listing not created."
-            })'''
-
+    
 @login_required
 def create_recipe_api(request):
-    print('im here'*10)
+
     if request.method == "POST":
         data_json = json.loads(request.body)
-        print(data_json)
+
         username = data_json['username']
         user = User.objects.get(username=username)
         name = data_json['name']
@@ -164,15 +121,15 @@ def create_recipe_api(request):
         description = data_json['description']
         Recipe_created = Recipe(name=name, description=description, category=category, creator=user)
         Recipe_created.save()
-        print(data_json['ingredientList'])
+
         for i in data_json['ingredientList']:
             Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
             if Ingredient.objects.filter(food_id=i['id'],  name=i['name'], amount=i['amount']).exists():
-                print('bb'*100)
+
                 Igredient_old = Ingredient.objects.get(food_id=i['id'],  name=i['name'], amount=i['amount'])
                 Recipe_created.ingredient.add(Igredient_old)
             else:
-                print('aa'*100)
+
                 ''' Add recipe to ingredient
                 Recipe_get = Recipe.objects.get(name=name, description=description, category=category, creator=user)
                 Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], recipe=Recipe_get, protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
@@ -216,6 +173,7 @@ def delete_recipe(request):
 
 @login_required
 def edit_recipe(request, recipeId):
+    
     recipe = Recipe.objects.get(id=recipeId)
     return render(request, "mplan/edit_recipe.html", {
             'recipe': recipe
@@ -225,7 +183,7 @@ def edit_recipe(request, recipeId):
 def edit_recipe_api(request):
     if request.method == "PUT":
         data_json = json.loads(request.body)
-        print(data_json)
+
         id = data_json['id']
         username = data_json['username']
         user = User.objects.get(username=username)
@@ -237,22 +195,16 @@ def edit_recipe_api(request):
         Recipe_update.description = description
         Recipe_update.category = category
         Recipe_update.save()
-        print(data_json['ingredientList'])
-        
         for i in data_json['deleteIngredients']:
             Ingredient.objects.get(id=i).delete()
         for i in data_json['ingredientList']:
             Ingredient_created = Ingredient(food_id=i['id'],  name=i['name'], amount=i['amount'], protein=i['protein'], fat=i['fat'], carb=i['carb'], energy=i['energy'])
             if Ingredient.objects.filter(food_id=i['id'],  name=i['name'], amount=i['amount']).exists():
-                print('bb'*100)
                 Igredient_old = Ingredient.objects.get(food_id=i['id'],  name=i['name'], amount=i['amount'])
                 Recipe_update.ingredient.add(Igredient_old)
-                
             else:
-                print('aa'*100)
-
                 Ingredient_created.save()
                 Recipe_update.ingredient.add(Ingredient_created) 
                 
                  
-    return render(request, "mplan/index.html")
+    return HttpResponse(status=204)
