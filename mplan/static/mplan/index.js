@@ -209,7 +209,6 @@ function edit_recipe(id) {
 			})
 			 
 		})
-		console.log('all good')
 	}
 		
 
