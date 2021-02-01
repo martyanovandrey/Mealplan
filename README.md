@@ -10,11 +10,11 @@ Project made as part of [HarvardX CS50’s Web Programming with Python and JavaS
 ## Features
 
   - **Create recipe and select its ingredients using USDA FoodData Central API**
-    - <img src='https://user-images.githubusercontent.com/37772440/106514882-e78d0800-64e5-11eb-8c62-5667ce23e920.jpg' width='750'>
+    <img src='https://user-images.githubusercontent.com/37772440/106514882-e78d0800-64e5-11eb-8c62-5667ce23e920.jpg'>
     
-    - <img src='https://user-images.githubusercontent.com/37772440/106513955-b3651780-64e4-11eb-91ea-e484eff36e26.jpg' width='750'>
+    <img src='https://user-images.githubusercontent.com/37772440/106513955-b3651780-64e4-11eb-91ea-e484eff36e26.jpg' width='750'>
     
-    - <img src='https://user-images.githubusercontent.com/37772440/106513959-b4964480-64e4-11eb-8b33-4fcfe8585cf8.jpg' width='750'>
+    <img src='https://user-images.githubusercontent.com/37772440/106513959-b4964480-64e4-11eb-8b33-4fcfe8585cf8.jpg' width='750'>
 
   
   - **View recipe page with summary of selected ingredients and their nutritional value.**
