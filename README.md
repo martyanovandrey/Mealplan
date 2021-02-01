@@ -9,11 +9,24 @@ Project made as part of [HarvardX CS50’s Web Programming with Python and JavaS
 
 ## Features
 
-  - Create recipe and select its ingredients using USDA FoodData Central API
-  - View recipe page with summary of selected ingredients and their nutritional value.
-  - Edite recipe
-  - Delete recipe
-  - Search in the list of all created recipes or recipes divided by category
+  - **Create recipe and select its ingredients using USDA FoodData Central API**
+    - <img src='https://user-images.githubusercontent.com/37772440/106513888-97fa0c80-64e4-11eb-9606-b399bc182ba1.jpg' width='750'>
+    
+    - <img src='https://user-images.githubusercontent.com/37772440/106513955-b3651780-64e4-11eb-91ea-e484eff36e26.jpg' width='750'>
+    
+    - <img src='https://user-images.githubusercontent.com/37772440/106513959-b4964480-64e4-11eb-8b33-4fcfe8585cf8.jpg' width='750'>
+
+  
+  - **View recipe page with summary of selected ingredients and their nutritional value.**
+    - <img src='https://user-images.githubusercontent.com/37772440/106513961-b5c77180-64e4-11eb-9ba7-08f3be253511.jpg' width='750'>
+
+  
+  - **Edite recipe**
+    - <img src='https://user-images.githubusercontent.com/37772440/106513965-b6600800-64e4-11eb-92bc-6c5d1959a34a.jpg' width='750'>
+  
+  - **Delete recipe**
+  
+  - **Search in the list of all created recipes or recipes divided by category**
   
 ## How to run
 
