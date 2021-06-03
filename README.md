@@ -45,5 +45,4 @@ Project made as part of [HarvardX CS50’s Web Programming with Python and JavaS
   - models.py - contains the essential fields and behaviors of the storing data
 
   ___
-  [Live demo](https://youtu.be/HzYkCCgWP1s)
-  
+  [![video](https://user-images.githubusercontent.com/37772440/120629062-1607f900-c46e-11eb-9966-244a5bcbdd9c.png)](http://www.youtube.com/watch?v=yWvHa_mjhYg)
